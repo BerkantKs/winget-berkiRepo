@@ -1,0 +1,25 @@
+name: Generate WinGet index
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Generate index file
+        run: python generate_index.py
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Automatically generated WinGet index file"
+          commit_user_name: "GitHub Actions"
+          commit_user_email: "actions@github.com"
